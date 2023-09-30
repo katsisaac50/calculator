@@ -1,11 +1,28 @@
 const express = require("express");
 const app = express();
 
+// middleware to parse form data
 app.use(express.urlencoded({ extended: true }));
+
+// middleware to serve static files
 app.use(express.static('public'));
 
+// get request for index
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
+})
+
+// get request for bmi
+app.get("/bmicalculator", (req, res) => {
+  res.sendFile(__dirname + "/bmiCalculator.html");
+})
+
+// post request for bmi
+app.post("/bmicalculator", (req, res) => {
+  var weight = parseFloat(req.body.weight);
+  var height = parseFloat(req.body.height);
+  var bmi = weight / (height * height);
+  res.send("Your BMI is " + bmi);
 })
 
 app.post("/", (req, res) => {
